@@ -3,7 +3,6 @@ import torch.nn as nn
 from torch.nn import init
 import math
 import numpy as np
-from .correlation_package.correlation import Correlation
 from .submodules import *
 
 
