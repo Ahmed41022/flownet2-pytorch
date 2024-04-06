@@ -126,7 +126,6 @@ def main():
                 img_pairs.append(img_pair)
 
     # Reset img_pairs to an empty list after the loop, as per your request
-    img_pairs = []
 
     print("{} samples found".format(len(img_pairs)))
     # create model
