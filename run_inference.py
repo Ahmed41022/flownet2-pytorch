@@ -12,7 +12,7 @@ import flow_transforms
 from imageio import imread, imwrite
 import numpy as np
 from util import flow2rgb
-
+from datasets import *
 model_names = ['FlowNet2']
 
 
@@ -145,8 +145,9 @@ def main():
 
         img1 = input_transform(imread(img1_file))
         img2 = input_transform(imread(img2_file))
-        input_var = torch.cat([img1, img2]).unsqueeze(0)
-
+        images = np.array(images).transpose(3, 0, 1, 2)
+        # input_var = torch.cat([img1, img2]).unsqueeze(0)
+        input_var = torch.from_numpy(images.astype(np.float32))
         if args.bidirectional:
             # feed inverted pair along with normal pair
             inverted_input_var = torch.cat([img2, img1]).unsqueeze(0)
