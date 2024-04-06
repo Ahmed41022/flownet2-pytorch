@@ -24,7 +24,7 @@ class FlowNet2(nn.Module):
         super(FlowNet2, self).__init__()
         self.batchNorm = batchNorm
         self.div_flow = div_flow
-        self.rgb_max = args.rgb_max
+        # self.rgb_max = args.rgb_max
         self.channelnorm = nn.BatchNorm2d(num_features=6)
 
         # First Block (FlowNetC)
@@ -84,7 +84,8 @@ class FlowNet2(nn.Module):
         rgb_mean = inputs.contiguous().view(
             inputs.size()[:2]+(-1,)).mean(dim=-1).view(inputs.size()[:2] + (1, 1, 1,))
 
-        x = (inputs - rgb_mean) / self.rgb_max
+        x = (inputs - rgb_mean) / 255.
+        # 255. = rgb_max
         x1 = x[:, :, 0, :, :]
         x2 = x[:, :, 1, :, :]
         x = torch.cat((x1, x2), dim=1)
