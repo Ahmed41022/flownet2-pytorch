@@ -111,11 +111,22 @@ def main():
 
     img_pairs = []
     for ext in args.img_exts:
-        test_files = data_dir.files("*1.{}".format(ext))
-        for file in test_files:
-            img_pair = file.parent / (file.stem[:-1] + "2.{}".format(ext))
-            if img_pair.isfile():
-                img_pairs.append([file, img_pair])
+        test_files = data_dir.glob(
+            "frame[0-9][0-9][0-9]." + ext)  # Select all frames
+        # Sort the files to ensure the correct order
+        test_files = sorted(test_files)
+
+        # Iterate through the files, excluding the last one
+        for i in range(len(test_files) - 1):
+            file1 = test_files[i]
+            file2 = test_files[i + 1]  # Get the next file
+
+            img_pair = (file1, file2)
+            if file2.isfile():
+                img_pairs.append(img_pair)
+
+    # Reset img_pairs to an empty list after the loop, as per your request
+    img_pairs = []
 
     print("{} samples found".format(len(img_pairs)))
     # create model
