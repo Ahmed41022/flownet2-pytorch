@@ -122,7 +122,7 @@ def main():
     network_data = torch.load(args.pretrained)
     print("=> using pre-trained model FlowNet2")
     model = models.FlowNet2(args)
-    model.load_state_dict(network_data['state_dict'])
+    model.load_state_dict(network_data['state_dict'], strict=False)
 
     model.to(device)
     model.eval()
