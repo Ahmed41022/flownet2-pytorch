@@ -20,22 +20,22 @@ from networks.submodules import *
 
 class FlowNet2(nn.Module):
 
-    def __init__(self, args, batchNorm=False, div_flow=20.):
+    def __init__(self, batchNorm=False, div_flow=20.):
         super(FlowNet2, self).__init__()
         self.batchNorm = batchNorm
         self.div_flow = div_flow
         # self.rgb_max = args.rgb_max
-        self.channelnorm = nn.BatchNorm2d(num_features=6)
+        self.channelnorm = nn.BatchNorm2d(num_features=4)
 
         # First Block (FlowNetC)
         self.flownetc = FlowNetC.FlowNetC(batchNorm=self.batchNorm)
         self.upsample1 = nn.Upsample(scale_factor=4, mode='bilinear')
-        self.resample1 = nn.functional(F.interpolate),
+        self.resample1 = nn.functional.interpolate
 
         # Block (FlowNetS1)
         self.flownets_1 = FlowNetS.FlowNetS(batchNorm=self.batchNorm)
         self.upsample2 = nn.Upsample(scale_factor=4, mode='bilinear')
-        self.resample2 = nn.functional(F.interpolate),
+        self.resample2 = nn.functional.interpolate
 
         # Block (FlowNetS2)
         self.flownets_2 = FlowNetS.FlowNetS(batchNorm=self.batchNorm)
@@ -45,8 +45,8 @@ class FlowNet2(nn.Module):
         self.upsample3 = nn.Upsample(scale_factor=4, mode='nearest')
         self.upsample4 = nn.Upsample(scale_factor=4, mode='nearest')
 
-        self.resample3 = nn.functional(F.interpolate),
-        self.resample4 = nn.functional(F.interpolate),
+        self.resample3 = nn.functional.interpolate
+        self.resample4 = nn.functional.interpolate
 
         # Block (FLowNetFusion)
         self.flownetfusion = FlowNetFusion.FlowNetFusion(
