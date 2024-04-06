@@ -384,7 +384,26 @@ class ImagesFromFolder(data.Dataset):
         return [images], [torch.zeros(images.size()[0:1] + (2,) + images.size()[-2:])]
 
     def __len__(self):
-        return self.size * self.replicates
+        index = index % self.size
+
+        img1 = frame_utils.read_gen(self.image_list[index][0])
+        img2 = frame_utils.read_gen(self.image_list[index][1])
+
+        images = [img1, img2]
+        image_size = img1.shape[:2]
+        if self.is_cropped:
+            cropper = StaticRandomCrop(image_size, self.crop_size)
+        else:
+            cropper = StaticCenterCrop(image_size, self.render_size)
+        images = list(map(cropper, images))
+
+        images = np.array(images).transpose(3, 0, 1, 2)
+        images = torch.from_numpy(images.astype(np.float32))
+
+        # Concatenate the frames along the channel dimension
+        images = torch.cat((images[0], images[1]), dim=0)
+
+        return [images], [torch.zeros(images.size()[0:1] + (2,) + images.size()[-2:])]
 
 
 '''

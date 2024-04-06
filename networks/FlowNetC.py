@@ -64,10 +64,10 @@ class FlowNetC(nn.Module):
         self.upsample1 = nn.Upsample(scale_factor=4, mode='bilinear')
 
     def forward(self, x):
-       # ? x1 = x[:, :3]
-       # ? x2 = x[:, 3:]
-        x1 = x[:, 0:3, :, :]
-        x2 = x[:, 3::, :, :]
+        x1 = x[:, :3]
+        x2 = x[:, 3:]
+        # x1 = x[:, 0:3, :, :]
+        # x2 = x[:, 3::, :, :]
         out_conv1a = self.conv1(x1)
         out_conv2a = self.conv2(out_conv1a)
         out_conv3a = self.conv3(out_conv2a)
