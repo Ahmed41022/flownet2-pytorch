@@ -121,9 +121,8 @@ def main():
     # create model
     network_data = torch.load(args.pretrained)
     print("=> using pre-trained model FlowNet2")
-    # model = models.__dict__[network_data["arch"]](network_data).to(device)
-    model = models.FlowNet2()
-    model = model.load_state_dict(network_data)
+    model = models.FlowNet2(args)
+    model.load_state_dict(network_data['state_dict'])
 
     model.to(device)
     model.eval()

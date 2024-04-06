@@ -25,25 +25,23 @@ class FlowNet2(nn.Module):
         self.batchNorm = batchNorm
         self.div_flow = div_flow
         self.rgb_max = args.rgb_max
-        self.args = args
-
         self.channelnorm = nn.BatchNorm2d(num_features=6)
 
         # First Block (FlowNetC)
-        self.flownetc = FlowNetC.FlowNetC(args, batchNorm=self.batchNorm)
+        self.flownetc = FlowNetC.FlowNetC(batchNorm=self.batchNorm)
         self.upsample1 = nn.Upsample(scale_factor=4, mode='bilinear')
         self.resample1 = nn.Functional(F.interpolate),
 
         # Block (FlowNetS1)
-        self.flownets_1 = FlowNetS.FlowNetS(args, batchNorm=self.batchNorm)
+        self.flownets_1 = FlowNetS.FlowNetS(batchNorm=self.batchNorm)
         self.upsample2 = nn.Upsample(scale_factor=4, mode='bilinear')
         self.resample2 = nn.Functional(F.interpolate),
 
         # Block (FlowNetS2)
-        self.flownets_2 = FlowNetS.FlowNetS(args, batchNorm=self.batchNorm)
+        self.flownets_2 = FlowNetS.FlowNetS(batchNorm=self.batchNorm)
 
         # Block (FlowNetSD)
-        self.flownets_d = FlowNetSD.FlowNetSD(args, batchNorm=self.batchNorm)
+        self.flownets_d = FlowNetSD.FlowNetSD(batchNorm=self.batchNorm)
         self.upsample3 = nn.Upsample(scale_factor=4, mode='nearest')
         self.upsample4 = nn.Upsample(scale_factor=4, mode='nearest')
 
@@ -52,7 +50,7 @@ class FlowNet2(nn.Module):
 
         # Block (FLowNetFusion)
         self.flownetfusion = FlowNetFusion.FlowNetFusion(
-            args, batchNorm=self.batchNorm)
+            batchNorm=self.batchNorm)
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
