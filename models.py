@@ -30,12 +30,12 @@ class FlowNet2(nn.Module):
         # First Block (FlowNetC)
         self.flownetc = FlowNetC.FlowNetC(batchNorm=self.batchNorm)
         self.upsample1 = nn.Upsample(scale_factor=4, mode='bilinear')
-        self.resample1 = nn.Functional(F.interpolate),
+        self.resample1 = nn.functional(F.interpolate),
 
         # Block (FlowNetS1)
         self.flownets_1 = FlowNetS.FlowNetS(batchNorm=self.batchNorm)
         self.upsample2 = nn.Upsample(scale_factor=4, mode='bilinear')
-        self.resample2 = nn.Functional(F.interpolate),
+        self.resample2 = nn.functional(F.interpolate),
 
         # Block (FlowNetS2)
         self.flownets_2 = FlowNetS.FlowNetS(batchNorm=self.batchNorm)
@@ -45,8 +45,8 @@ class FlowNet2(nn.Module):
         self.upsample3 = nn.Upsample(scale_factor=4, mode='nearest')
         self.upsample4 = nn.Upsample(scale_factor=4, mode='nearest')
 
-        self.resample3 = nn.Functional(F.interpolate),
-        self.resample4 = nn.Functional(F.interpolate),
+        self.resample3 = nn.functional(F.interpolate),
+        self.resample4 = nn.functional(F.interpolate),
 
         # Block (FLowNetFusion)
         self.flownetfusion = FlowNetFusion.FlowNetFusion(
