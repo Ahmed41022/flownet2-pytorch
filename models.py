@@ -84,7 +84,7 @@ class FlowNet2(nn.Module):
         rgb_mean = inputs.contiguous().view(
             inputs.size()[:2]+(-1,)).mean(dim=-1).view(inputs.size()[:2] + (1, 1, 1,))
 
-        x = (inputs - rgb_mean) / 2.
+        x = (inputs - rgb_mean) / 255.
         # 255. = rgb_max
         x1 = x[:, :, 0, :, :]
         x2 = x[:, :, 1, :, :]

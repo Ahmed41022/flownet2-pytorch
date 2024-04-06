@@ -136,6 +136,7 @@ def main():
 
     model.to(device)
     model.eval()
+    print(model.eval())
     cudnn.benchmark = True
 
     if "div_flow" in network_data.keys():
