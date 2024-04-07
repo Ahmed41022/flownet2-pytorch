@@ -146,7 +146,7 @@ def main():
         img1 = input_transform(imread(img1_file))
         img2 = input_transform(imread(img2_file))
         images = [img1, img2]
-        images = np.array(images).transpose(3, 0, 1, 2)
+        images = np.array(images).transpose(0, 3, 1, 2)
         # input_var = torch.cat([img1, img2]).unsqueeze(0)
         input_var = torch.from_numpy(images.astype(np.float32))
         input_var = input_var.unsqueeze(0)  # Add a batch dimension
