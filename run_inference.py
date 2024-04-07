@@ -134,7 +134,7 @@ def main():
         size = len(image_list)
         print(f"size=", size)
         frame_size = frame_utils.read_gen(image_list[0][0]).shape
-        render_size = []
+        render_size = [0, 0]
         render_size[0] = ((frame_size[0])//64) * 64
         render_size[1] = ((frame_size[0])//64) * 64
         # inference_size = render_size
