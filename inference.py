@@ -246,6 +246,8 @@ def main():
 
             if batch_idx == (args.inference_n_batches - 1):
                 break
+        print("\n")
+        print("done 1\n")
 
         progress.close()
 
