@@ -189,7 +189,7 @@ def main():
         block.log("Loading checkpoint '{}'".format(args.resume))
         checkpoint = torch.load(args.resume)
         best_err = checkpoint['best_EPE']
-        model_and_loss.module.model.load_state_dict(checkpoint['state_dict'])
+        model_and_loss.model.load_state_dict(checkpoint['state_dict'])
         block.log("Loaded checkpoint '{}' (at epoch {})".format(
             args.resume, checkpoint['epoch']))
 
