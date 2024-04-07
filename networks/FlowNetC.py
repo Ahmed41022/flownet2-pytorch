@@ -12,7 +12,7 @@ from .submodules import *
 class FlowNetC(nn.Module):
     expansion = 1
 
-    def __init__(self, batchNorm=True, div_flow=20):
+    def __init__(self, args, batchNorm=True, div_flow=20):
         super(FlowNetC, self).__init__()
         self.div_flow = div_flow
         self.batchNorm = batchNorm

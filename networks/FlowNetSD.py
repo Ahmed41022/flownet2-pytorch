@@ -12,7 +12,7 @@ from .submodules import *
 class FlowNetSD(nn.Module):
     expansion = 1
 
-    def __init__(self, batchNorm=True):
+    def __init__(self, args,  batchNorm=True):
         super(FlowNetSD, self).__init__()
         self.batchNorm = batchNorm
         self.conv0 = conv(self.batchNorm,  6,   64)

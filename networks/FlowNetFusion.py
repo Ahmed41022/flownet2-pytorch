@@ -10,7 +10,7 @@ from .submodules import *
 
 
 class FlowNetFusion(nn.Module):
-    def __init__(self, batchNorm=True):
+    def __init__(self, args,  batchNorm=True):
         super(FlowNetFusion, self).__init__()
 
         self.batchNorm = batchNorm
