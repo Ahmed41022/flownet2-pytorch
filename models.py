@@ -118,10 +118,11 @@ class FlowNet2(nn.Module):
         # concat img0, img1, img1->img0, flow, diff-mag ;
         concat1 = torch.cat(
             (x, resampled_img1, flownetc_flow/self.div_flow, norm_diff_img0), dim=1)
-
+        print("Concat1 shape:", concat1.shape)
         # flownets1
         flownets1_flow2 = self.flownets_1(concat1)[0]
         print("flownets1_flow2 shape:", flownets1_flow2.shape)
+        print("flownets_1 shape:", self.flownets_1.shape)
         flownets1_flow = self.upsample2(flownets1_flow2*self.div_flow)
         print("Done")
 
