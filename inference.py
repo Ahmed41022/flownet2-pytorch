@@ -27,7 +27,8 @@ if __name__ == '__main__':
     parser.add_argument('--batch_size', '-b', type=int,
                         default=8, help="Batch size")
     # parser.add_argument('--train_n_batches', type=int, default = -1, help='Number of min-batches per epoch. If < 0, it will be determined by training_dataloader')
-    # parser.add_argument('--crop_size', type=int, nargs='+', default = [256, 256], help="Spatial dimension to crop training samples for training")
+    parser.add_argument('--crop_size', type=int, nargs='+', default=[
+                        256, 256], help="Spatial dimension to crop training samples for training")
     # parser.add_argument('--gradient_clip', type=float, default=None)
     # parser.add_argument('--schedule_lr_frequency', type=int, default=0, help='in number of iterations (0 for no schedule)')
     # parser.add_argument('--schedule_lr_fraction', type=float, default=10)
@@ -269,3 +270,7 @@ def main():
         last_epoch_time = progress._time()
     print("\n")
     print("done 1\n")
+
+
+if __name__ == "__main__":
+    main()

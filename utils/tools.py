@@ -29,16 +29,34 @@ def module_to_dict(module, exclude=[]):
                  and getattr(module, x) not in exclude])
 
 
+def get_gpu_memory_map():
+    """Get the current gpu usage.
+    Returns
+    -------
+    usage: dict
+        Keys are device ids as integers.
+        Values are memory usage as integers in MB.
+    """
+    result = subprocess.check_output(
+        [
+            'nvidia-smi', '--query-gpu=memory.used',
+            '--format=csv,nounits,noheader'
+        ])
+    # Convert lines into a dictionary
+    result = result.decode('utf-8').split('\n')[:-1]
+    return {i: int(x) for i, x in enumerate(result)}
+
+
 class TimerBlock:
     def __init__(self, title):
         print(("{}".format(title)))
 
     def __enter__(self):
-        self.start = time.clock()
+        self.start = time.perf_counter()
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        self.end = time.clock()
+        self.end = time.perf_counter()
         self.interval = self.end - self.start
 
         if exc_type is not None:
@@ -47,7 +65,7 @@ class TimerBlock:
             self.log("Operation finished\n")
 
     def log(self, string):
-        duration = time.clock() - self.start
+        duration = time.perf_counter() - self.start
         units = 's'
         if duration > 60:
             duration = duration / 60.
@@ -55,9 +73,8 @@ class TimerBlock:
         print(("  [{:.3f}{}] {}".format(duration, units, string)))
 
     def log2file(self, fid, string):
-        fid = open(fid, 'a')
-        fid.write("%s\n" % (string))
-        fid.close()
+        with open(fid, 'a') as f:
+            f.write("%s\n" % (string))
 
 
 def add_arguments_for_module(parser, module, argument_for_class, default, skip_params=[], parameter_defaults={}):
@@ -126,21 +143,6 @@ class IteratorTimer():
         return n
 
     next = __next__
-
-
-def gpumemusage():
-    gpu_mem = subprocess.check_output("nvidia-smi | grep MiB | cut -f 3 -d '|'",
-                                      shell=True).replace(' ', '').replace('\n', '').replace('i', '')
-    all_stat = [float(a) for a in gpu_mem.replace('/', '').split('MB')[:-1]]
-
-    gpu_mem = ''
-    for i in range(len(all_stat)/2):
-        curr, tot = all_stat[2*i], all_stat[2*i+1]
-        util = "%1.2f" % (100*curr/tot)+'%'
-        cmem = str(int(math.ceil(curr/1024.)))+'GB'
-        gmem = str(int(math.ceil(tot/1024.)))+'GB'
-        gpu_mem += util + '--' + join(cmem, gmem) + ' '
-    return gpu_mem
 
 
 def update_hyperparameter_schedule(args, epoch, global_iteration, optimizer):
