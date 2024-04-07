@@ -12,9 +12,9 @@ from .submodules import *
 class FlowNetC(nn.Module):
     expansion = 1
 
-    def __init__(self, batchNorm=True):
+    def __init__(self, batchNorm=True, div_flow=20):
         super(FlowNetC, self).__init__()
-        # self.div_flow = div_flow
+        self.div_flow = div_flow
         self.batchNorm = batchNorm
         self.conv1 = conv(self.batchNorm, 3, 64, kernel_size=7, stride=2)
         self.conv2 = conv(self.batchNorm, 64, 128, kernel_size=5, stride=2)
