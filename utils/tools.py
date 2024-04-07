@@ -71,7 +71,8 @@ def add_arguments_for_module(parser, module, argument_for_class, default, skip_p
     class_obj = module_dict[vars(args)[argument_for_class]]
 
     argspec = inspect.getfullargspec(class_obj.__init__)
-
+    print("done 1\n")
+    print(argspec)
     defaults = argspec.defaults[::-1] if argspec.defaults else None
 
     args = argspec.args[::-1]

@@ -44,10 +44,6 @@ if __name__ == '__main__':
                         help='a name to append to the save directory')
     parser.add_argument('--save', '-s', default='./work',
                         type=str, help='directory for saving')
-
-    parser.add_argument('--validation_frequency', type=int,
-                        default=5, help='validate every n epochs')
-    parser.add_argument('--validation_n_batches', type=int, default=-1)
     parser.add_argument('--render_validation', action='store_true',
                         help='run inference (save flows to file) and every validation_frequency epoch')
 
@@ -68,9 +64,6 @@ if __name__ == '__main__':
     parser.add_argument('--skip_validation', action='store_true')
     device = torch.device(
         "cuda") if torch.cuda.is_available() else torch.device("cpu")
-
-    # parser.add_argument('--fp16', action='store_true', help='Run model in pseudo-fp16 mode (fp16 storage fp32 math).')
-    # parser.add_argument('--fp16_scale', type=float, default=1024., help='Loss scaling, positive power of 2 values can improve fp16 convergence.')
 
     tools.add_arguments_for_module(
         parser, models, argument_for_class='model', default='FlowNet2')
@@ -271,3 +264,4 @@ def main():
 
         last_epoch_time = progress._time()
     print("\n")
+    print("done 1\n")
