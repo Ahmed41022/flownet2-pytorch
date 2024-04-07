@@ -122,7 +122,6 @@ class FlowNet2(nn.Module):
         # flownets1
         flownets1_flow2 = self.flownets_1(concat1)[0]
         print("flownets1_flow2 shape:", flownets1_flow2.shape)
-        print("flownets_1 shape:", self.flownets_1.shape)
         flownets1_flow = self.upsample2(flownets1_flow2*self.div_flow)
         print("Done")
 
