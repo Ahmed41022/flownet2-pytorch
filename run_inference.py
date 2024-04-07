@@ -138,7 +138,8 @@ def main():
         render_size[0] = ((frame_size[0])//64) * 64
         render_size[1] = ((frame_size[0])//64) * 64
         # inference_size = render_size
-        index = index % size
+        # index = 0
+        # index = index % size
 
     # Reset img_pairs to an empty list after the loop, as per your request
 
