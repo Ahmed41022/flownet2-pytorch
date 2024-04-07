@@ -102,8 +102,9 @@ class FlowNet2(nn.Module):
 
         # flownetc
         flownetc_flow2 = self.flownetc(x)[0]
+        print("flownetc_flow2 shape:", flownetc_flow2.shape)
         flownetc_flow = self.upsample1(flownetc_flow2*self.div_flow)
-
+        print("flownetc_flow shape:", flownetc_flow.shape)
         # warp img1 to img0; magnitude of diff between img0 and and warped_img1,
         # resampled_img1 = self.resample1(x[:, 3:, :, :], flownetc_flow)
         resampled_img1 = F.interpolate(
