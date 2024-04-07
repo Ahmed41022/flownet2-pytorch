@@ -108,10 +108,11 @@ class FlowNet2(nn.Module):
         # resampled_img1 = self.resample1(x[:, 3:, :, :], flownetc_flow)
         resampled_img1 = F.interpolate(
             x[:, 3:, :, :], size=flownetc_flow.size()[-2:], mode='nearest')
-
+        print('resampled_img1 shape:', resampled_img1.shape)
         diff_img0 = x[:, :3, :, :] - resampled_img1
+        print("diff_img0 shape:", diff_img0.shape)
         norm_diff_img0 = self.channelnorm(diff_img0)
-
+        print("norm_diff_img0 shape:", norm_diff_img0.shape)
         # concat img0, img1, img1->img0, flow, diff-mag ;
         concat1 = torch.cat(
             (x, resampled_img1, flownetc_flow/self.div_flow, norm_diff_img0), dim=1)
