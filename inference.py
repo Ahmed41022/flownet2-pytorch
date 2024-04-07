@@ -125,7 +125,7 @@ def main():
     # Change the title for `top` and `pkill` commands
     setproctitle.setproctitle(args.save)
     with tools.TimerBlock("Initializing Datasets") as block:
-        # args.effective_batch_size = args.batch_size * args.number_gpus
+        args.effective_batch_size = args.batch_size * args.number_gpus
         args.effective_inference_batch_size = args.inference_batch_size * args.number_gpus
         args.effective_number_workers = args.number_workers * args.number_gpus
         gpuargs = {'num_workers': args.effective_number_workers,
@@ -133,7 +133,7 @@ def main():
                    'drop_last': True} if args.cuda else {}
         inf_gpuargs = gpuargs.copy()
         inf_gpuargs['num_workers'] = args.number_workers
-
+    print(args)
     inference_dataset = args.inference_dataset_class(
         args, False, **tools.kwargs_from_args(args, 'inference_dataset'))
     block.log('Inference Dataset: {}'.format(args.inference_dataset))
