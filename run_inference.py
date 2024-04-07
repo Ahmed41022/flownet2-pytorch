@@ -124,6 +124,13 @@ def main():
             img_pair = (file1, file2)
             if file2.isfile():
                 img_pairs.append(img_pair)
+        size = len(img_pairs)
+        frame_size = frame_utils.read_gen(img_pairs[0][0]).shape
+        render_size = []
+        render_size[0] = ((frame_size[0])//64) * 64
+        render_size[1] = ((frame_size[0])//64) * 64
+        # inference_size = render_size
+        index = index % size
 
     # Reset img_pairs to an empty list after the loop, as per your request
 
@@ -146,9 +153,12 @@ def main():
         img1 = input_transform(imread(img1_file))
         img2 = input_transform(imread(img2_file))
         images = [img1, img2]
+        image_size = img1.shape[:2]
+        # add cropped version
+        cropper = StaticCenterCrop(image_size, render_size)
+        images = list(map(cropper, images))
         images = np.array(images).transpose(3, 0, 1, 2)
         input_var = torch.from_numpy(images.astype(np.float32)).unsqueeze(0)
-        # input_var = input_var.unsqueeze(0)  # Add a batch dimension
         if args.bidirectional:
             # feed inverted pair along with normal pair
             inverted_input_var = torch.cat([img2, img1]).unsqueeze(0)
