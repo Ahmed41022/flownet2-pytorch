@@ -132,6 +132,7 @@ def main():
             im2 = images[i+1]
             image_list += [[im1, im2]]
         size = len(image_list)
+        print(f"size=", size)
         frame_size = frame_utils.read_gen(image_list[0][0]).shape
         render_size = []
         render_size[0] = ((frame_size[0])//64) * 64
