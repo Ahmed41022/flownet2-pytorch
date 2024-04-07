@@ -105,7 +105,10 @@ class FlowNet2(nn.Module):
         flownetc_flow = self.upsample1(flownetc_flow2*self.div_flow)
 
         # warp img1 to img0; magnitude of diff between img0 and and warped_img1,
-        resampled_img1 = self.resample1(x[:, 3:, :, :], flownetc_flow)
+        # resampled_img1 = self.resample1(x[:, 3:, :, :], flownetc_flow)
+        resampled_img1 = F.upsample_nearest(
+            x[:, 3:, :, :], output_size=flownetc_flow.size()[-2:])
+
         diff_img0 = x[:, :3, :, :] - resampled_img1
         norm_diff_img0 = self.channelnorm(diff_img0)
 
