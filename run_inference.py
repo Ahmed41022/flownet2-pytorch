@@ -147,7 +147,7 @@ def main():
         img2 = input_transform(imread(img2_file))
         images = [img1, img2]
         images = np.array(images).transpose(3, 0, 1, 2)
-        input_var = torch.from_numpy(images.astype(np.float32))
+        input_var = torch.from_numpy(images.astype(np.float32)).unsqueeze(0)
         # input_var = input_var.unsqueeze(0)  # Add a batch dimension
         if args.bidirectional:
             # feed inverted pair along with normal pair
@@ -156,7 +156,7 @@ def main():
 
         input_var = input_var.to(device)
         # compute output
-        output = model(input_var)
+        output = model(input_var).squeeze()
         if args.upsampling is not None:
             output = F.interpolate(
                 output, size=img1.size(
