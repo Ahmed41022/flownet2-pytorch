@@ -67,7 +67,7 @@ class FlowNetC(nn.Module):
         # x1 = x[:, :3]
         # x2 = x[:, 3:]
         x1 = x[:, 0:3, :, :]
-        x2 = x[:, 3::, :, :]
+        x2 = x[:, 0:3, :, :]
         out_conv1a = self.conv1(x1)
         out_conv2a = self.conv2(out_conv1a)
         out_conv3a = self.conv3(out_conv2a)
