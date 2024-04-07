@@ -125,7 +125,7 @@ def main():
             if file2.isfile():
                 img_pairs.append(img_pair)
         size = len(img_pairs)
-        images = sorted(glob(join(data_dir, '*.' + args.img_exts)))
+        images = sorted(glob(join(data_dir, '*.' + 'jpg')))
         image_list = []
         for i in range(len(images)-1):
             im1 = images[i]
