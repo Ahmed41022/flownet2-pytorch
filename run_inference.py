@@ -148,7 +148,7 @@ def main():
         images = [img1, img2]
         images = np.array(images).transpose(3, 0, 1, 2)
         input_var = torch.from_numpy(images.astype(np.float32))
-        input_var = input_var.unsqueeze(0)  # Add a batch dimension
+        # input_var = input_var.unsqueeze(0)  # Add a batch dimension
         if args.bidirectional:
             # feed inverted pair along with normal pair
             inverted_input_var = torch.cat([img2, img1]).unsqueeze(0)
