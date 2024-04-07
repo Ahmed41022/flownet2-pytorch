@@ -27,6 +27,7 @@ class FlowNet2(nn.Module):
         self.div_flow = div_flow
         self.rgb_max = args.rgb_max
         self.args = args
+        self.channelnorm = nn.BatchNorm2d(1)
         # self.channelnorm = channelnorm(input, 2, dim=1, keepdim=True)
         # Block (FlowNetC)
         self.flownetc = FlowNetC.FlowNetC(args, batchNorm=self.batchNorm)
