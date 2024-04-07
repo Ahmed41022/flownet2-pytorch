@@ -94,7 +94,8 @@ class FlowNet2(nn.Module):
         # 255. = rgb_max
         x1 = x[:, :, 0, :, :]
         x2 = x[:, :, 1, :, :]
-        print("x:", x.shape)
+        print("x1:", x1.shape)
+        print("x2:", x2.shape)
 
         x = torch.cat((x1, x2), dim=1)
         print("x after cat:", x.shape)
