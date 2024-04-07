@@ -121,11 +121,18 @@ def main():
             file1 = test_files[i]
             file2 = test_files[i + 1]  # Get the next file
 
-            img_pair = (file1, file2)
+            img_pair = [file1, file2]
             if file2.isfile():
                 img_pairs.append(img_pair)
         size = len(img_pairs)
-        frame_size = frame_utils.read_gen(img_pairs[0][0]).shape
+        images = sorted(glob(join(data_dir, '*.' + args.img_exts)))
+        image_list = []
+        for i in range(len(images)-1):
+            im1 = images[i]
+            im2 = images[i+1]
+            image_list += [[im1, im2]]
+        size = len(image_list)
+        frame_size = frame_utils.read_gen(image_list[0][0]).shape
         render_size = []
         render_size[0] = ((frame_size[0])//64) * 64
         render_size[1] = ((frame_size[0])//64) * 64
