@@ -232,7 +232,7 @@ def main():
             loss_values = [v.item() for v in losses]
 
             # gather loss_labels, direct return leads to recursion limit error as it looks for variables to gather'
-            loss_labels = list(model.module.loss.loss_labels)
+            loss_labels = list(model.loss.loss_labels)
 
             statistics.append(loss_values)
             # import IPython; IPython.embed()
