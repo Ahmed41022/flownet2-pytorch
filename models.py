@@ -91,8 +91,9 @@ class FlowNet2(nn.Module):
 
         x = (inputs - rgb_mean) / 255.
         # 255. = rgb_max
-        x1 = x[:, :, 0, :, :]
-        x2 = x[:, :, 1, :, :]
+        x1 = x[:, 0, :, :, :]
+        x2 = x[:, 1, :, :, :]
+
         x = torch.cat((x1, x2), dim=1)
 
         # flownetc
