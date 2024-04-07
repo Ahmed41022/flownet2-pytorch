@@ -204,6 +204,7 @@ def main():
             print(f"saved to {flow_folder}")
             if not os.path.exists(flow_folder):
                 os.makedirs(flow_folder)
+                print(f"saved to {flow_folder}")
 
         args.inference_n_batches = np.inf if args.inference_n_batches < 0 else args.inference_n_batches
 
