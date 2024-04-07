@@ -340,7 +340,7 @@ class ChairsSDHomTest(ChairsSDHom):
 
 
 class ImagesFromFolder(data.Dataset):
-    def __init__(self, args, is_cropped, root='/path/to/frames/only/folder', iext='png', replicates=1):
+    def __init__(self, args, is_cropped, root='/path/to/frames/only/folder', iext='jpg', replicates=1):
         self.args = args
         self.is_cropped = is_cropped
         self.crop_size = args.crop_size
