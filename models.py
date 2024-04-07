@@ -25,8 +25,10 @@ class FlowNet2(nn.Module):
         self.batchNorm = batchNorm
         self.div_flow = div_flow
         # self.rgb_max = args.rgb_max
-        self.channelnorm = torch.linalg.norm(input, 2, dim=1, keepdim=True)
+        # self.channelnorm = torch.linalg.norm(input, 2, dim=1, keepdim=True)
 
+        def channelnorm(self, input):
+            return torch.linalg.norm(input, 2, dim=1, keepdim=True)
         # First Block (FlowNetC)
         self.flownetc = FlowNetC.FlowNetC(batchNorm=self.batchNorm)
         self.upsample1 = nn.Upsample(scale_factor=4, mode='bilinear')
