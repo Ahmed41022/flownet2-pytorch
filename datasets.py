@@ -1,6 +1,9 @@
 import torch
 import torch.utils.data as data
 
+import numpy as np
+from torch.utils.data import Dataset
+
 import os
 import math
 import random
@@ -339,30 +342,37 @@ class ChairsSDHomTest(ChairsSDHom):
                                               root=root, dstype='test', replicates=replicates)
 
 
-class ImagesFromFolder(data.Dataset):
+class ImagesFromFolder(Dataset):
     def __init__(self, args, is_cropped, root='/path/to/frames/only/folder', iext='jpg', replicates=1):
         self.args = args
         self.is_cropped = is_cropped
         self.crop_size = args.crop_size
         self.render_size = args.inference_size
         self.replicates = replicates
-
-        images = sorted(glob(join(root, '*.' + iext)))
-        self.image_list = []
-        for i in range(len(images)-1):
-            im1 = images[i]
-            im2 = images[i+1]
-            self.image_list += [[im1, im2]]
-
+        self.image_list = self.get_image_pairs(root, iext)
         self.size = len(self.image_list)
-
         self.frame_size = frame_utils.read_gen(self.image_list[0][0]).shape
+        self.size = len(self.image_list)
+        print(f'Number of image pairs: {self.size}')
 
         if (self.render_size[0] < 0) or (self.render_size[1] < 0) or (self.frame_size[0] % 64) or (self.frame_size[1] % 64):
             self.render_size[0] = ((self.frame_size[0])//64) * 64
             self.render_size[1] = ((self.frame_size[1])//64) * 64
 
         args.inference_size = self.render_size
+
+    def get_image_pairs(self, directory, extension):
+        image_list = []
+        for subdir, dirs, files in os.walk(directory):
+            for file in files:
+                if file.endswith('.' + extension):
+                    filepath = os.path.join(subdir, file)
+                    image_list.append(filepath)
+        image_list = sorted(image_list)
+        image_pairs = []
+        for i in range(len(image_list) - 1):
+            image_pairs.append([image_list[i], image_list[i+1]])
+        return image_pairs
 
     def __getitem__(self, index):
         index = index % self.size
