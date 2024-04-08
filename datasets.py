@@ -363,11 +363,7 @@ class ImagesFromFolder(Dataset):
 
     def get_image_pairs(self, directory, extension):
         image_list = []
-        processed_folders = set()
         for subdir, dirs, files in os.walk(directory):
-            if subdir not in processed_folders:
-                print(f"Processing folder: {subdir}")
-                processed_folders.add(subdir)
             for file in files:
                 if file.endswith('.' + extension):
                     filepath = os.path.join(subdir, file)
@@ -381,8 +377,14 @@ class ImagesFromFolder(Dataset):
     def __getitem__(self, index):
         index = index % self.size
 
-        img1 = frame_utils.read_gen(self.image_list[index][0])
-        img2 = frame_utils.read_gen(self.image_list[index][1])
+        img1_path = self.image_list[index][0]
+        img2_path = self.image_list[index][1]
+
+        img1 = frame_utils.read_gen(img1_path)
+        img2 = frame_utils.read_gen(img2_path)
+
+        print(
+            f"Currently inferencing from images: {img1_path} and {img2_path}")
 
         images = [img1, img2]
         image_size = img1.shape[:2]
