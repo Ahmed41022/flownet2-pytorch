@@ -380,11 +380,6 @@ class ImagesFromFolder(Dataset):
         img1 = frame_utils.read_gen(self.image_list[index][0])
         img2 = frame_utils.read_gen(self.image_list[index][1])
 
-        # Check if img1 and img2 have the same size
-        if img1.shape != img2.shape:
-            raise ValueError(
-                f"Images do not have the same size. img1: {img1.shape}, img2: {img2.shape}")
-
         images = [img1, img2]
         image_size = img1.shape[:2]
         if self.is_cropped:
