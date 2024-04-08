@@ -388,6 +388,9 @@ class ImagesFromFolder(Dataset):
             cropper = StaticCenterCrop(image_size, self.render_size)
         images = list(map(cropper, images))
 
+        # Print the shapes of the images
+        print([img.shape for img in images])
+
         images = np.array(images).transpose(3, 0, 1, 2)
         images = torch.from_numpy(images.astype(np.float32))
 
