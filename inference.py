@@ -241,11 +241,6 @@ def main():
                     flow_utils.writeFlow(join(flow_folder, '%06d.flo' % (
                         batch_idx * args.inference_batch_size + i)),  _pflow)
 
-            # Print the file name of the current data sample being processed
-            current_file = inference_dataset.image_list[batch_idx *
-                                                        args.inference_batch_size + i][0]
-            print(f"Processing file: {current_file}")
-
             progress.set_description('Inference Averages for Epoch {}: '.format(
                 epoch) + tools.format_dictionary_of_losses(loss_labels, np.array(statistics).mean(axis=0)))
             progress.update(1)
