@@ -395,7 +395,9 @@ class ImagesFromFolder(Dataset):
         print(
             f"Shapes after cropping images: {images[0].shape}, {images[1].shape}")
 
-        images = np.array(images).transpose(3, 0, 1, 2)
+        # Convert each image to a numpy array separately
+        images = [np.array(img).transpose(2, 0, 1) for img in images]
+        images = np.stack(images)
         images = torch.from_numpy(images.astype(np.float32))
 
         return [images], [torch.zeros(images.size()[0:1] + (2,) + images.size()[-2:])]
