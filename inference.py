@@ -133,7 +133,7 @@ def main():
                    'drop_last': True} if args.cuda else {}
         inf_gpuargs = gpuargs.copy()
         inf_gpuargs['num_workers'] = args.number_workers
-    print(args)
+    #print(args)
     inference_dataset = args.inference_dataset_class(
         args, False, **tools.kwargs_from_args(args, 'inference_dataset'))
     block.log('Inference Dataset: {}'.format(args.inference_dataset))
@@ -248,8 +248,6 @@ def main():
 
             if batch_idx == (args.inference_n_batches - 1):
                 break
-        print("\n")
-        print("done 1\n")
 
         progress.close()
 
@@ -269,8 +267,6 @@ def main():
             offset += 1
 
         last_epoch_time = progress._time()
-    print("\n")
-    print("done 1\n")
 
 
 if __name__ == "__main__":
