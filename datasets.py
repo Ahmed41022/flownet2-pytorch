@@ -363,7 +363,11 @@ class ImagesFromFolder(Dataset):
 
     def get_image_pairs(self, directory, extension):
         image_list = []
+        processed_folders = set()
         for subdir, dirs, files in os.walk(directory):
+            if subdir not in processed_folders:
+                print(f"Processing folder: {subdir}")
+                processed_folders.add(subdir)
             for file in files:
                 if file.endswith('.' + extension):
                     filepath = os.path.join(subdir, file)
