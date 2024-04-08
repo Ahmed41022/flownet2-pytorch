@@ -380,8 +380,16 @@ class ImagesFromFolder(Dataset):
         img1_path = self.image_list[index][0]
         img2_path = self.image_list[index][1]
 
-        img1 = frame_utils.read_gen(img1_path)
-        img2 = frame_utils.read_gen(img2_path)
+        try:
+            img1 = frame_utils.read_gen(img1_path)
+            img2 = frame_utils.read_gen(img2_path)
+        except ValueError as e:
+            print(
+                f"Skipping problematic image pair: {img1_path}, {img2_path}. Error: {e}")
+            # Return a dummy tensor to maintain the DataLoader iteration
+            dummy_tensor = torch.zeros(
+                (2, 3, self.render_size[1], self.render_size[0]))
+            return [dummy_tensor], [dummy_tensor]
 
         print(
             f"Currently inferencing from images: {img1_path} and {img2_path}")
