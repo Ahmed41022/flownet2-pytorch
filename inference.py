@@ -203,10 +203,9 @@ def main():
         if args.save_flow or args.render_validation:
             flow_folder = "{}/inference/{}.epoch-{}-flow-field".format(
                 args.save, args.name.replace('/', '.'), epoch)
-            print(f"\nsaved to {flow_folder}")
             if not os.path.exists(flow_folder):
                 os.makedirs(flow_folder)
-                print(f"\nsaved to {flow_folder}")
+            print(f"\nsaved to {flow_folder}")
 
         args.inference_n_batches = np.inf if args.inference_n_batches < 0 else args.inference_n_batches
 
