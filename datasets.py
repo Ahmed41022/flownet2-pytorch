@@ -344,6 +344,7 @@ class ChairsSDHomTest(ChairsSDHom):
 
 class ImagesFromFolder(Dataset):
     def __init__(self, args, is_cropped, root='/path/to/frames/only/folder', iext='jpg', replicates=1):
+        self.problematic_pairs = []
         self.args = args
         self.is_cropped = is_cropped
         self.crop_size = args.crop_size
@@ -386,7 +387,6 @@ class ImagesFromFolder(Dataset):
         except ValueError as e:
             print(
                 f"Skipping problematic image pair: {img1_path}, {img2_path}. Error: {e}")
-            # Return a dummy tensor to maintain the DataLoader iteration
             dummy_tensor = torch.zeros(
                 (2, 3, self.render_size[1], self.render_size[0]))
             return [dummy_tensor], [dummy_tensor]
