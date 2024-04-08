@@ -88,42 +88,28 @@ class FlowNet2(nn.Module):
             inputs.size()[:2]+(-1,)).mean(dim=-1).view(inputs.size()[:2] + (1, 1, 1,))
 
         rgb_mean = inputs.mean(dim=1, keepdim=True)
-        print("Inputs shape:", inputs.shape)
-        print("RGB mean shape:", rgb_mean.shape)
         x = (inputs - rgb_mean) / self.rgb_max
-        print("x:", x.shape)
         # 255. = rgb_max
         x1 = x[:, :, 0, :, :]
         x2 = x[:, :, 1, :, :]
-        print("x1:", x1.shape)
-        print("x2:", x2.shape)
 
         x = torch.cat((x1, x2), dim=1)
-        print("x after cat:", x.shape)
 
         # flownetc
         flownetc_flow2 = self.flownetc(x)[0]
-        print("flownetc_flow2 shape:", flownetc_flow2.shape)
         flownetc_flow = self.upsample1(flownetc_flow2*self.div_flow)
-        print("flownetc_flow shape:", flownetc_flow.shape)
         # warp img1 to img0; magnitude of diff between img0 and and warped_img1,
         # resampled_img1 = self.resample1(x[:, 3:, :, :], flownetc_flow)
         resampled_img1 = F.interpolate(
             x[:, 3:, :, :], size=flownetc_flow.size()[-2:], mode='nearest')
-        print('resampled_img1 shape:', resampled_img1.shape)
         diff_img0 = x[:, :3, :, :] - resampled_img1
-        print("diff_img0 shape:", diff_img0.shape)
         norm_diff_img0 = self.channelnorm(diff_img0)
-        print("norm_diff_img0 shape:", norm_diff_img0.shape)
         # concat img0, img1, img1->img0, flow, diff-mag ;
         concat1 = torch.cat(
             (x, resampled_img1, flownetc_flow/self.div_flow, norm_diff_img0), dim=1)
-        print("Concat1 shape:", concat1.shape)
         # flownets1
         flownets1_flow2 = self.flownets_1(concat1)[0]
-        print("flownets1_flow2 shape:", flownets1_flow2.shape)
         flownets1_flow = self.upsample2(flownets1_flow2*self.div_flow)
-        print("Done")
 
         # warp img1 to img0 using flownets1; magnitude of diff between img0 and and warped_img1
         resampled_img1 = F.interpolate(
