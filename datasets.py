@@ -380,8 +380,10 @@ class ImagesFromFolder(Dataset):
         img1 = frame_utils.read_gen(self.image_list[index][0])
         img2 = frame_utils.read_gen(self.image_list[index][1])
 
-        # Print the shapes of the images after reading them in
-        print(f"Shapes after reading images: {img1.shape}, {img2.shape}")
+        # Check if img1 and img2 have the same size
+        if img1.shape != img2.shape:
+            raise ValueError(
+                f"Images do not have the same size. img1: {img1.shape}, img2: {img2.shape}")
 
         images = [img1, img2]
         image_size = img1.shape[:2]
@@ -391,13 +393,7 @@ class ImagesFromFolder(Dataset):
             cropper = StaticCenterCrop(image_size, self.render_size)
         images = list(map(cropper, images))
 
-        # Print the shapes of the images after cropping them
-        print(
-            f"Shapes after cropping images: {images[0].shape}, {images[1].shape}")
-
-        # Convert each image to a numpy array separately
-        images = [np.array(img).transpose(2, 0, 1) for img in images]
-        images = np.stack(images)
+        images = np.array(images).transpose(3, 0, 1, 2)
         images = torch.from_numpy(images.astype(np.float32))
 
         return [images], [torch.zeros(images.size()[0:1] + (2,) + images.size()[-2:])]
